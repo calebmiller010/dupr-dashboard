@@ -45,6 +45,7 @@ export interface PlayerAnalytics {
   close_loss_pct: number;
 
   clutch: ClutchStats;
+  player_name: string;
 
   current_streak: StreakInfo | null;
   longest_win_streak: StreakInfo | null;

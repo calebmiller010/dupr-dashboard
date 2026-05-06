@@ -507,6 +507,7 @@ class PlayerAnalytics(BaseModel):
     narratives: dict[str, int] = {}
     matchup_contexts: dict[str, int] = {}
     thresholds: dict = {}
+    player_name: str = ""
 
     history: list[HistoryPoint] = []
     sessions: list[SessionGroup] = []

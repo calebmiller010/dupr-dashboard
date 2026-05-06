@@ -104,20 +104,23 @@ export function NarrativeTooltip({
     return () => document.removeEventListener("mousedown", handleClick);
   }, [open]);
 
-  const t = thresholds ?? {
-    impact: {
-      dominance: 0.01,
-      empty_win: -0.005,
-      grinder: 0.005,
-      underperformance: -0.01,
-    },
-    context: {
-      big_underdog: -0.15,
-      slight_underdog: -0.05,
-      slight_favorite: 0.05,
-      big_favorite: 0.15,
-    },
-  };
+  const t =
+    thresholds && thresholds.impact && thresholds.context
+      ? thresholds
+      : {
+          impact: {
+            dominance: 0.01,
+            empty_win: -0.005,
+            grinder: 0.005,
+            underperformance: -0.01,
+          },
+          context: {
+            big_underdog: -0.3,
+            slight_underdog: -0.1,
+            slight_favorite: 0.1,
+            big_favorite: 0.3,
+          },
+        };
   const impacts = buildImpacts(t.impact);
   const contexts = buildContexts(t.context);
 

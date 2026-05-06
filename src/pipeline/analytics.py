@@ -34,9 +34,14 @@ class AnalyticsEngine:
         self,
         matches: list[ProcessedMatch],
         session_metadata: dict[str, dict] | None = None,
+        thresholds: dict | None = None,
     ) -> PlayerAnalytics:
+        thresholds = thresholds or {}
         if not matches:
-            return PlayerAnalytics(player_id=self.target_id)
+            return PlayerAnalytics(
+                player_id=self.target_id,
+                thresholds=thresholds,
+            )
         session_metadata = session_metadata or {}
 
         history: list[HistoryPoint] = []
@@ -338,8 +343,17 @@ class AnalyticsEngine:
 
         total = len(matches)
 
+        # Extract player name from the most recent match
+        player_name = ""
+        for match in matches:
+            target = match.target
+            if target and target.name:
+                player_name = target.name
+                break
+
         return PlayerAnalytics(
             player_id=self.target_id,
+            player_name=player_name,
             current_doubles=round(current_d, 3),
             career_high_doubles=round(career_high_d, 3),
             career_high_date=career_high_date,
@@ -349,6 +363,7 @@ class AnalyticsEngine:
             overall_win_rate=round(total_wins / total, 3) if total > 0 else 0,
             narratives=dict(narrative_counts),
             matchup_contexts=dict(context_counts),
+            thresholds=thresholds,
             history=history,
             sessions=sessions,
             by_source=list(source_splits.values()),

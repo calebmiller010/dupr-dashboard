@@ -155,7 +155,11 @@ class Pipeline:
         transformer = MatchTransformer(target_player_id=self.player_id, thresholds=config.get("thresholds"))
         processed = transformer.transform_all(raw)
         engine = AnalyticsEngine(self.player_id)
-        analytics = engine.compute(processed)
+        analytics = engine.compute(
+            processed,
+            session_metadata=self.store.load_sessions(),
+            thresholds=config.get("thresholds"),
+        )
         self.store.save_analytics(analytics)
         return SyncResult(
             new_matches_fetched=new_fetched,

@@ -1765,6 +1765,7 @@ export default function App() {
         readOnly={readOnly}
         onUnlock={unlock}
         onLock={lock}
+        playerName={data.player_name}
       >
         {activeTab === "Overview" && <OverviewTab data={data} />}
         {activeTab === "Sessions" && (

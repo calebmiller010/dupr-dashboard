@@ -101,10 +101,10 @@ const DEFAULT_THRESHOLDS: Thresholds = {
     underperformance: -0.01,
   },
   context: {
-    big_underdog: -0.15,
-    slight_underdog: -0.05,
-    slight_favorite: 0.05,
-    big_favorite: 0.15,
+    big_underdog: -0.3,
+    slight_underdog: -0.1,
+    slight_favorite: 0.1,
+    big_favorite: 0.3,
   },
 };
 
@@ -173,7 +173,10 @@ export function NarrativeLegend({
   contextCounts,
   thresholds,
 }: NarrativeLegendProps) {
-  const t = thresholds ?? DEFAULT_THRESHOLDS;
+  const t =
+    thresholds && thresholds.impact && thresholds.context
+      ? thresholds
+      : DEFAULT_THRESHOLDS;
   const impacts = buildImpacts(t.impact);
   const contexts = buildContexts(t.context);
 

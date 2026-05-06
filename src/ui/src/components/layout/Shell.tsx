@@ -14,6 +14,7 @@ interface ShellProps {
   readOnly?: boolean;
   onUnlock?: (secret: string) => void;
   onLock?: () => void;
+  playerName?: string;
 }
 
 export function Shell({
@@ -28,6 +29,7 @@ export function Shell({
   readOnly = false,
   onUnlock,
   onLock,
+  playerName,
 }: ShellProps) {
   const [showUnlock, setShowUnlock] = useState(false);
   const [secretInput, setSecretInput] = useState("");
@@ -45,9 +47,14 @@ export function Shell({
       <header className="border-b border-border bg-bg-card/50 backdrop-blur-sm sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="py-4 flex items-center justify-between">
-            <h1 className="text-xl font-bold text-text-primary">
-              <span className="text-accent">DUPR</span> Dashboard
-            </h1>
+            <div>
+              <h1 className="text-xl font-bold text-text-primary leading-tight">
+                <span className="text-accent">DUPR</span> Dashboard
+              </h1>
+              {playerName && (
+                <p className="text-xs text-text-muted">{playerName}</p>
+              )}
+            </div>
             <div className="flex items-center gap-3">
               {readOnly && (
                 <span className="hidden sm:inline-flex items-center gap-1.5 px-2 py-1 rounded-md bg-bg-card border border-border text-xs text-text-muted">
