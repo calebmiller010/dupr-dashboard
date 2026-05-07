@@ -269,13 +269,16 @@ class AnalyticsEngine:
         rating_30d = None
         if history:
             try:
-                cutoff = datetime.strptime(history[-1].date, "%Y-%m-%d") - timedelta(
-                    days=30
-                )
-                for h in reversed(history):
-                    if datetime.strptime(h.date, "%Y-%m-%d") <= cutoff:
-                        rating_30d = h.rating
-                        break
+                cutoff = datetime.now() - timedelta(days=30)
+                last_match_date = datetime.strptime(history[-1].date, "%Y-%m-%d")
+                # Only show a 30-day comparison if they've actually played
+                # within the last 30 days. Otherwise the metric compares
+                # two different values from the same old match.
+                if last_match_date >= cutoff:
+                    for h in reversed(history):
+                        if datetime.strptime(h.date, "%Y-%m-%d") <= cutoff:
+                            rating_30d = h.rating
+                            break
             except ValueError:
                 pass
 
